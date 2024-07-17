@@ -48,7 +48,7 @@ public class MainModel {
                     hienthidanhsachlaptop(lt);
                     break;
                 case 3:
-                    xapsepxetheogia(cars);
+                    xapseplaptoptheogia(lt);
                     break;
                 case 4:
                     timkiem(lt, sc);
@@ -60,10 +60,17 @@ public class MainModel {
                     timkiemXe(cars, sc);
                     break;
                 case 7:
+                    xapsepxetheogia(cars);
+                    break;
+                case 8:
                     xoaXe(cars, sc);
                     break;
                 case 0:
-                    System.out.println("Thoát chương trình.");
+                    System.out.println("Bạn Đã Thoát chương trình.");
+                    System.out.println("Chúc Bạn Có 1 Ngày Tốt Đẹp.");
+                    System.out.println("Hẹn Gặp Lại Bạn Trong Lần Tới.");
+
+
                     break;
                 default:
                     System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại.");
@@ -83,18 +90,22 @@ public class MainModel {
 	}
 
 	public static void showMenu() {
-		 System.out.println("\n|-------------------------------------- |");
-	        System.out.println("|                 Menu:                 |");
-	        System.out.println("|1. Hiển thị danh sách xe hơi           |");
-	        System.out.println("|2. Hiển thị danh sách laptop           |");
-	        System.out.println("|3. Xắp sếp xe theo giá cả              |");
-	        System.out.println("|4. Tìm kiếm laptop                     |");
-	        System.out.println("|5. Xóa laptop                          |");
-	        System.out.println("|6. Tìm kiếm xe hơi                     |");
-	        System.out.println("|7. Xóa xe hơi                          |");
-	        System.out.println("|0. Thoát Chương Trình                  |");
-	        System.out.println("|-------------------------------------- |");
-	        System.out.print("Mời bạn chọn: ");
+		System.out.println("\n********************************************");
+		System.out.println("* |               MENU                   | *");
+		System.out.println("********************************************");
+		System.out.println("* |     Quản Lý Tài Sản Của Sinh Viên    | *");
+		System.out.println("********************************************");
+		System.out.println("* | 1. Hiển thị danh sách xe hơi         | *");
+		System.out.println("* | 2. Hiển thị danh sách laptop         | *");
+		System.out.println("* | 3. Xắp sếp theo giá cả Laptop        | *");
+		System.out.println("* | 4. Tìm kiếm laptop                   | *");
+		System.out.println("* | 5. Xóa laptop                        | *");
+		System.out.println("* | 6. Tìm kiếm xe hơi                   | *");
+		System.out.println("* | 7. Xắp xếp theo giá xe               | *");
+		System.out.println("* | 8. Xóa xe hơi                        | *");
+		System.out.println("* | 0. Thoát Chương Trình                | *");
+		System.out.println("********************************************");
+		System.out.print("Mời bạn chọn: ");
     }
 
     public static void hienthidanhsachbanhxe(List<XeHoi> cars) {
@@ -121,40 +132,47 @@ public class MainModel {
         System.out.println("|-------------------------------------------------------------------------|");
     }
 
-    public static void xapsepxetheogia(List<XeHoi> cars) {
-        Collections.sort(cars, Comparator.comparingDouble(XeHoi::getGiaca));
+    public static void xapseplaptoptheogia(List<LapTop> lt) {
+        // Sắp xếp danh sách laptop theo giá cả tăng dần
+        lt.sort(Comparator.comparingDouble(LapTop::getGiaca));
 
-        System.out.println("\nDanh sách xe hơi được sắp xếp theo giá cả:");
-        System.out.println("|----------------------------------------------------------------|");
-        System.out.printf("| %-10s | %-15s | %-20s | %-8s |\n", "Giá cả", "Mã SP", "Tên SP", "Số lượng");
-        System.out.println("|----------------------------------------------------------------|");
-        for (XeHoi car : cars) {
-            System.out.printf("| %-10.2f | %-15d | %-20s | %-8d |\n",
-                    car.getGiaca(), car.getMaSP(), car.getTenSP(), car.getSoluong());
+        // Hiển thị danh sách sau khi sắp xếp
+        System.out.println("\nDanh sách laptop được sắp xếp theo giá cả:");
+        System.out.println("|-------------------------------------------------------------------------|");
+        System.out.printf("| %-3s | %-15s | %-8s | %-10s | %-5s | %-15s |\n", "ID", "Tên", "Số Lượng", "Giá Cả", "RAM", "CPU");
+        System.out.println("|-------------------------------------------------------------------------|");
+        for (LapTop item : lt) {
+            System.out.printf("| %-3d | %-15s | %-8d | %-10.3f | %-5d | %-15s |\n",
+                    item.getMaSP(), item.getTenSP(), item.getSoluong(), item.getGiaca(), item.getRam(), item.getCpu());
         }
-        System.out.println("|----------------------------------------------------------------|");
+        System.out.println("|-------------------------------------------------------------------------|");
     }
 
     public static void timkiem(List<LapTop> lt, Scanner sc) {
         System.out.print("\nNhập tên laptop cần tìm: ");
         String name = sc.nextLine().trim();
 
+        // Sắp xếp danh sách laptop theo tên
         Collections.sort(lt, Comparator.comparing(LapTop::getTenSP));
 
+        // Tìm kiếm bằng binarySearch
         int vitri = Collections.binarySearch(lt, new LapTop(0, name, 0, 0, 0, null), Comparator.comparing(LapTop::getTenSP));
 
-        if (vitri < 0) {
-            System.out.println("Không tìm thấy laptop '" + name + "'.");
-        } else {
-            System.out.println("Laptop '" + name + "' có vị trí: " + vitri);
+        // Kiểm tra kết quả tìm kiếm
+        if (vitri >= 0) {
+            // Nếu tìm thấy
+            System.out.println("Laptop '" + name + "' đã được tìm thấy.");
             System.out.println("|-------------------------------------------------------------------------|");
             System.out.printf("| %-3s | %-15s | %-8s | %-10s | %-5s | %-15s |\n", "ID", "Tên", "Số Lượng", "Giá Cả", "RAM", "CPU");
             System.out.println("|-------------------------------------------------------------------------|");
-            LapTop foundLaptop = lt.get(vitri);
+            LapTop foundLaptop = lt.get(vitri); // Lấy đối tượng laptop từ vị trí tìm được
             System.out.printf("| %-3d | %-15s | %-8d | %-10.3f | %-5d | %-15s |\n",
                     foundLaptop.getMaSP(), foundLaptop.getTenSP(), foundLaptop.getSoluong(),
                     foundLaptop.getGiaca(), foundLaptop.getRam(), foundLaptop.getCpu());
             System.out.println("|-------------------------------------------------------------------------|");
+        } else {
+            // Nếu không tìm thấy
+            System.out.println("Không tìm thấy laptop '" + name + "'.");
         }
     }
     public static void xoa(List<LapTop> lt, Scanner sc) {
@@ -182,22 +200,41 @@ public class MainModel {
         System.out.print("\nNhập tên xe hơi cần tìm: ");
         String name = sc.nextLine().trim();
 
-        Collections.sort(cars, Comparator.comparing(XeHoi::getTenSP));
+        // Sắp xếp danh sách theo tên nếu chưa được sắp xếp
+        cars.sort(Comparator.comparing(XeHoi::getTenSP));
 
+        // Thực hiện tìm kiếm nhị phân
         int vitri = Collections.binarySearch(cars, new XeHoi(0, name, 0, 0, null), Comparator.comparing(XeHoi::getTenSP));
 
-        if (vitri < 0) {
-            System.out.println("Không tìm thấy xe hơi '" + name + "'.");
+        // Kiểm tra kết quả tìm kiếm
+        if (vitri >= 0) {
+            // Tìm thấy mục
+            hienthidanhsachbanhxe(Collections.singletonList(cars.get(vitri))); // Hiển thị thông tin xe hơi được tìm thấy
         } else {
-            System.out.println("Xe hơi '" + name + "' có vị trí: " + vitri);
-            System.out.println("|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|");
-            System.out.printf("| %-3s | %-15s | %-8s | %-12s | %-30s | %-100s |\n", "ID", "Tên", "Số Lượng", "Giá Cả", "Động Cơ", "Bánh Xe");
-            System.out.println("|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|");
-            XeHoi foundCar = cars.get(vitri);
-            System.out.printf("| %-3d | %-15s | %-8d | %-12.3f | %-30s | %-100s |\n",
-                    foundCar.getMaSP(), foundCar.getTenSP(), foundCar.getSoluong(), foundCar.getGiaca(), foundCar.getDongco(), foundCar.getDsbx());
-            System.out.println("|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|");
+            // Không tìm thấy mục
+            int insertPoint = -(vitri + 1); // Tính toán vị trí chèn nếu cần
+            System.out.println("Không tìm thấy xe hơi '" + name + "'.");
+            if (insertPoint < cars.size()) {
+                System.out.println("Xe hơi '" + name + "' có thể được chèn vào vị trí " + (insertPoint + 1)); // +1 để hiển thị vị trí chèn theo đánh số từ 1
+            } else {
+                System.out.println("Xe hơi '" + name + "' sẽ được chèn vào cuối danh sách.");
+            }
         }
+    }
+    public static void xapsepxetheogia(List<XeHoi> cars) {
+        // Sắp xếp danh sách xe hơi theo giá cả tăng dần
+        cars.sort(Comparator.comparingDouble(XeHoi::getGiaca));
+
+        // Hiển thị danh sách sau khi sắp xếp
+        System.out.println("\nDanh sách xe hơi được sắp xếp theo giá cả:");
+        System.out.println("|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|");
+        System.out.printf("| %-3s | %-15s | %-8s | %-12s | %-30s | %-100s |\n", "ID", "Tên", "Số Lượng", "Giá Cả", "Động Cơ", "Bánh Xe");
+        System.out.println("|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|");
+        for (XeHoi car : cars) {
+            System.out.printf("| %-3d | %-15s | %-8d | %-12.3f | %-30s | %-100s |\n",
+                    car.getMaSP(), car.getTenSP(), car.getSoluong(), car.getGiaca(), car.getDongco(), car.getDsbx());
+        }
+        System.out.println("|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|");
     }
     public static void xoaXe(List<XeHoi> cars, Scanner sc) {
         System.out.print("\nNhập tên xe hơi cần xóa: ");
