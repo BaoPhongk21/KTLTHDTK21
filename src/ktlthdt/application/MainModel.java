@@ -1,5 +1,7 @@
 package ktlthdt.application;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import ktlthdt.model.BanhXe;
+import ktlthdt.model.DBConnection;
 import ktlthdt.model.DongCo;
 import ktlthdt.model.LapTop;
 import ktlthdt.model.SanPham;
@@ -15,7 +18,7 @@ import ktlthdt.model.XeHoi;
 
 public class MainModel {
 
-    public static void main(String[] args) throws CloneNotSupportedException {
+    public static void main(String[] args) throws CloneNotSupportedException, SQLException {
         List<XeHoi> cars = new ArrayList<>();
         cars.add(new XeHoi(1, "Toyota", 100, 1250000, new DongCo("Dong co xang", 147)));
         cars.add(new XeHoi(2, "Chevrolet", 1000, 3890000, new DongCo("Dong co xang", 107)));
@@ -65,6 +68,9 @@ public class MainModel {
                 case 8:
                     xoaXe(cars, sc);
                     break;
+                case 9:
+                	ketnoiMayChuCSDL();
+                	break;
                 case 0:
                     System.out.println("Bạn Đã Thoát chương trình.");
                     System.out.println("Chúc Bạn Có 1 Ngày Tốt Đẹp.");
@@ -103,6 +109,7 @@ public class MainModel {
 		System.out.println("* | 6. Tìm kiếm xe hơi                   | *");
 		System.out.println("* | 7. Xắp xếp theo giá xe               | *");
 		System.out.println("* | 8. Xóa xe hơi                        | *");
+		System.out.println("* | 9. Kết nối máy chủ CSDL              | *");
 		System.out.println("* | 0. Thoát Chương Trình                | *");
 		System.out.println("********************************************");
 		System.out.print("Mời bạn chọn: ");
@@ -256,5 +263,16 @@ public class MainModel {
             System.out.println("\nDanh sách xe hơi sau khi xóa:");
             hienthidanhsachbanhxe(cars);
         }
+    }
+    
+    public static void ketnoiMayChuCSDL() throws SQLException {
+    	
+			Connection kncsdl = ktlthdt.model.DBConnection.getInstance().getConnection();
+			if(kncsdl != null) {
+				System.out.println( "Ket Noi Toi May Chu CSDL, Thanh Cong.");
+			} else {
+				System.out.println("Loi Ket Noi");
+			}
+		
     }
 }
