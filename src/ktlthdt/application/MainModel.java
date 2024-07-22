@@ -47,11 +47,12 @@ public class MainModel {
 	        dssv.add(new SinhVien("Lê Minh Hiếu", "0123654789", new LopHoc("QTKD")));
 	        dssv.add(new SinhVien("Phạm Thu Hà", "0987456321", new LopHoc("KHTN")));
 	        dssv.add(new SinhVien("Đặng Quốc Bình", "0123458769", new LopHoc("KTMT")));
+	        
 	        List<SanPham> sanPhams1 = new ArrayList<>();
 	        sanPhams1.add(new XeHoi(1, "Toyota", 100, 1250000, new DongCo("Dong co xang", 147)));
 	        
 	        List<SanPham> sanPhams2 = new ArrayList<>();
-	        sanPhams2.add(new LapTop(1, "Dell", 123, 15000, 4, "16GB DDR4"));
+	        sanPhams2.add(new LapTop(2, "Dell", 123, 15000, 4, "16GB DDR4"));
 	        
 	   
 
@@ -105,7 +106,7 @@ public class MainModel {
 	                    if (sv != null) {
 	                        List<SanPham> sanPhams = new ArrayList<>();
 	                        sanPhams.add(new XeHoi(1, "Toyota", 100, 1250000, new DongCo("Dong co xang", 147)));
-	                        sanPhams.add(new LapTop(1, "Dell", 123, 15000, 4, "16GB DDR4"));
+	                        sanPhams.add(new LapTop(2, "Dell", 123, 15000, 4, "16GB DDR4"));
 	                        taoHoaDon(sv, sanPhams);
 	                    } else {
 	                        System.out.println("Sinh viên không tồn tại.");
@@ -163,18 +164,17 @@ public class MainModel {
 
         // Hiển thị hóa đơn
         System.out.println("\nHóa đơn của sinh viên " + sinhVien.getHoten() + ":");
-        System.out.println("Đả Mua Các Sản Phẩm");
+        System.out.println("Đã Mua Các Sản Phẩm");
         System.out.println("Số hóa đơn: " + hoaDon.getSoHD());
-        System.out.println("|----------------------------------------------------------|");
-        System.out.printf("| %-3s | %-15s | %-8s | %-10s |\n", "ID", "Tên", "Số Lượng", "Giá Cả");
-        System.out.println("|----------------------------------------------------------|");   
-
+        System.out.println("|---------------------------------------------------------------|");
+        System.out.printf("| %-8s | %-20s | %-8s | %-10s |\n", "ID", "Tên", "Số Lượng", "Giá Cả");
+        System.out.println("|---------------------------------------------------------------|");   
 
         for (SanPham sp : hoaDon.getDssp()) {
-            System.out.printf("| %-3d | %-15s | %-8d | %-10.2f |\n", sp.getMaSP(), sp.getTenSP(), sp.getSoluong(), sp.getGiaca());
+            System.out.printf("| %-8d | %-20s | %-8d | %-10.2f |\n", sp.getMaSP(), sp.getTenSP(), sp.getSoluong(), sp.getGiaca());
         }
 
-        System.out.println("|----------------------------------------------------------|");
+        System.out.println("|---------------------------------------------------------------|");
     }
 
     public static void hienthidanhsachbanhxe(List<XeHoi> cars) {
