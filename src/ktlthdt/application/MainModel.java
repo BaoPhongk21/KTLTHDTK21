@@ -9,111 +9,121 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
-import ktlthdt.model.BanhXe;
-import ktlthdt.model.DBConnection;
 import ktlthdt.model.DongCo;
+import ktlthdt.model.HoaDon;
 import ktlthdt.model.LapTop;
+import ktlthdt.model.LopHoc;
 import ktlthdt.model.SanPham;
+import ktlthdt.model.SinhVien;
 import ktlthdt.model.XeHoi;
 
 public class MainModel {
 
-    public static void main(String[] args) throws CloneNotSupportedException, SQLException {
-        List<XeHoi> cars = new ArrayList<>();
-        cars.add(new XeHoi(1, "Toyota", 100, 1250000, new DongCo("Dong co xang", 147)));
-        cars.add(new XeHoi(2, "Chevrolet", 1000, 3890000, new DongCo("Dong co xang", 107)));
-        cars.add(new XeHoi(3, "Mitsubishi", 100, 6500000, new DongCo("Dong co xang", 105)));
-        cars.add(new XeHoi(4, "Isuzu", 100, 6180000, new DongCo("Dong co xang", 110)));
-        cars.add(new XeHoi(5, "Porsche Taycan", 100, 1013950, new DongCo("Dong co dien", 560)));
-        cars.add(new XeHoi(6, "VinFast", 100, 2620000, new DongCo("Dong co dien", 300)));
-        cars.add(new XeHoi(7, "Hyundai", 100, 8500000, new DongCo("Dong co dien", 160)));
 
-        List<LapTop> lt = new ArrayList<>();
-        lt.add(new LapTop(1, "Dell", 123, 15000, 4, "16GB DDR4"));
-        lt.add(new LapTop(2, "Macbook", 1234, 14670, 8, "8GB DDR4"));
-        lt.add(new LapTop(3, "Lenovor", 231, 13290, 4, "16GB DDR4"));
-        lt.add(new LapTop(4, "Toshiba", 101, 8200, 4, "8GB DDR3"));
-        lt.add(new LapTop(5, "Asus", 120, 12490, 4, "8GB DDR4"));
-        lt.add(new LapTop(6, "Hewlett-Packard", 1500, 13490, 4, "16GB DDR4"));
-        lt.add(new LapTop(7, "Acer", 100, 26490, 4, "8GB DDR4"));
+	    public static void main(String[] args) throws CloneNotSupportedException, SQLException {
 
-        Scanner sc = new Scanner(System.in);
-        int choice;
-        do {
-            showMenu();
-            choice = sc.nextInt();
-            sc.nextLine(); // Consume newline left-over
-            switch (choice) {
-                case 1:
-                    hienthidanhsachbanhxe(cars);
-                    break;
-                case 2:
-                    hienthidanhsachlaptop(lt);
-                    break;
-                case 3:
-                    xapseplaptoptheogia(lt);
-                    break;
-                case 4:
-                    timkiem(lt, sc);
-                    break;
-                case 5:
-                    xoa(lt, sc);
-                    break;
-                case 6:
-                    timkiemXe(cars, sc);
-                    break;
-                case 7:
-                    xapsepxetheogia(cars);
-                    break;
-                case 8:
-                    xoaXe(cars, sc);
-                    break;
-                case 9:
-                	ketnoiMayChuCSDL();
-                	break;
-                case 0:
-                    System.out.println("Bạn Đã Thoát chương trình.");
-                    System.out.println("Chúc Bạn Có 1 Ngày Tốt Đẹp.");
-                    System.out.println("Hẹn Gặp Lại Bạn Trong Lần Tới.");
+	        // Khởi tạo dữ liệu mẫu cho xe hơi, laptop và sinh viên
+	        List<XeHoi> cars = new ArrayList<>();
+	        cars.add(new XeHoi(1, "Toyota", 100, 1250000, new DongCo("Dong co xang", 147)));
+	        cars.add(new XeHoi(2, "Chevrolet", 1000, 3890000, new DongCo("Dong co xang", 107)));
+	        cars.add(new XeHoi(3, "Mitsubishi", 100, 6500000, new DongCo("Dong co xang", 105)));
+	        cars.add(new XeHoi(4, "Isuzu", 100, 6180000, new DongCo("Dong co xang", 110)));
+	        cars.add(new XeHoi(5, "Porsche Taycan", 100, 1013950, new DongCo("Dong co dien", 560)));
+	        cars.add(new XeHoi(6, "VinFast", 100, 2620000, new DongCo("Dong co dien", 300)));
+	        cars.add(new XeHoi(7, "Hyundai", 100, 8500000, new DongCo("Dong co dien", 160)));
 
+	        List<LapTop> lt = new ArrayList<>();
+	        lt.add(new LapTop(1, "Dell", 123, 15000, 4, "16GB DDR4"));
+	        lt.add(new LapTop(2, "Macbook", 1234, 14670, 8, "8GB DDR4"));
+	        lt.add(new LapTop(3, "Lenovor", 231, 13290, 4, "16GB DDR4"));
+	        lt.add(new LapTop(4, "Toshiba", 101, 8200, 4, "8GB DDR3"));
+	        lt.add(new LapTop(5, "Asus", 120, 12490, 4, "8GB DDR4"));
+	        lt.add(new LapTop(6, "Hewlett-Packard", 1500, 13490, 4, "16GB DDR4"));
+	        lt.add(new LapTop(7, "Acer", 100, 26490, 4, "8GB DDR4"));
 
-                    break;
-                default:
-                    System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại.");
-            }
-        } while (choice != 0);
-        sc.close();
+	        List<SinhVien> dssv = new ArrayList<>();
+	        dssv.add(new SinhVien("Nguyễn Văn Nam", "0123456789", new LopHoc("CNTT")));
+	        dssv.add(new SinhVien("Trần Thị Mai", "0987654321", new LopHoc("KTPM")));
+	        dssv.add(new SinhVien("Lê Minh Hiếu", "0123654789", new LopHoc("QTKD")));
+	        dssv.add(new SinhVien("Phạm Thu Hà", "0987456321", new LopHoc("KHTN")));
+	        dssv.add(new SinhVien("Đặng Quốc Bình", "0123458769", new LopHoc("KTMT")));
+
+	        Scanner sc = new Scanner(System.in);
+	        int choice;
+	        do {
+	            showMenu();
+	            choice = sc.nextInt();
+	            sc.nextLine(); // Consume newline left-over
+	            switch (choice) {
+	                case 1:
+	                    hienthidanhsachbanhxe(cars);
+	                    break;
+	                case 2:
+	                    hienthidanhsachlaptop(lt);
+	                    break;
+	                case 3:
+	                    xapseplaptoptheogia(lt);
+	                    break;
+	                case 4:
+	                    timkiem(lt, sc);
+	                    break;
+	                case 5:
+	                    xoa(lt, sc);
+	                    break;
+	                case 6:
+	                    timkiemXe(cars, sc);
+	                    break;
+	                case 7:
+	                    xapsepxetheogia(cars);
+	                    break;
+	                case 8:
+	                    xoaXe(cars, sc);
+	                    break;
+	                case 9:
+	                    ketnoiMayChuCSDL();
+	                    break;
+	                case 10:
+	                    hienthidanhsachsinhvien(dssv);
+	                    break;
+	                case 11:
+	                    xoasinhvien(dssv, sc);
+	                    break;
+	              
+	                case 0:
+	                    System.out.println("Bạn Đã Thoát chương trình.");
+	                    System.out.println("Chúc Bạn Có 1 Ngày Tốt Đẹp.");
+	                    System.out.println("Hẹn Gặp Lại Bạn Trong Lần Tới.");
+	                    break;
+	                default:
+	                    System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại.");
+	                    break;
+	            }
+	        } while (choice != 0);
+	        sc.close();
+	    }
+
+    public static void showMenu() {
+        System.out.println("\n********************************************");
+        System.out.println("* |               MENU                      | *");
+        System.out.println("********************************************");
+        System.out.println("* |     Quản Lý Tài Sản Của Cửa Hàng        | *");
+        System.out.println("********************************************");
+        System.out.println("* | 1. Hiển thị danh sách xe hơi            | *");
+        System.out.println("* | 2. Hiển thị danh sách laptop            | *");
+        System.out.println("* | 3. Xắp xếp laptop theo giá              | *");
+        System.out.println("* | 4. Tìm kiếm laptop                      | *");
+        System.out.println("* | 5. Xóa                                  | *");
+        System.out.println("* | 6. Tìm kiếm xe                          | *");
+        System.out.println("* | 7. Xắp xếp xe theo giá                  | *");
+        System.out.println("* | 8. Xóa xe                               | *");
+        System.out.println("* | 9. Kết nối máy chủ CSDL                 | *");
+        System.out.println("* | 10. Hiển thị danh sách sinh viên        | *");
+        System.out.println("* | 11. Xóa sinh viên                       | *");
+        System.out.println("* | 0. Thoát                                | *");
+        System.out.println("********************************************");
+        System.out.print("Vui lòng chọn (0-11): ");
     }
-
-    private static void suathongtinsanpham(List<LapTop> lt, Scanner sc) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void themmoixe(List<XeHoi> cars, Scanner sc) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void showMenu() {
-		System.out.println("\n********************************************");
-		System.out.println("* |               MENU                   | *");
-		System.out.println("********************************************");
-		System.out.println("* |     Quản Lý Tài Sản Của Sinh Viên    | *");
-		System.out.println("********************************************");
-		System.out.println("* | 1. Hiển thị danh sách xe hơi         | *");
-		System.out.println("* | 2. Hiển thị danh sách laptop         | *");
-		System.out.println("* | 3. Xắp sếp theo giá cả Laptop        | *");
-		System.out.println("* | 4. Tìm kiếm laptop                   | *");
-		System.out.println("* | 5. Xóa laptop                        | *");
-		System.out.println("* | 6. Tìm kiếm xe hơi                   | *");
-		System.out.println("* | 7. Xắp xếp theo giá xe               | *");
-		System.out.println("* | 8. Xóa xe hơi                        | *");
-		System.out.println("* | 9. Kết nối máy chủ CSDL              | *");
-		System.out.println("* | 0. Thoát Chương Trình                | *");
-		System.out.println("********************************************");
-		System.out.print("Mời bạn chọn: ");
-    }
+    
 
     public static void hienthidanhsachbanhxe(List<XeHoi> cars) {
         System.out.println("\nDanh sách bánh xe của các xe hơi:");
@@ -275,4 +285,37 @@ public class MainModel {
 			}
 		
     }
+    public static void hienthidanhsachsinhvien(List<SinhVien> dssv) {
+        System.out.println("\nDanh sách sinh viên:");
+        System.out.println("|---------------------------------------------------|");
+        System.out.printf("| %-20s | %-12s | %-10s |\n", "Tên", "Số Điện Thoại",  "Lớp Học");
+        System.out.println("|---------------------------------------------------|");
+        for (SinhVien sv : dssv) {
+            System.out.printf("| %-20s | %-12s | %-10s  |\n", sv.getHoten(), sv.getSdt(), sv.getLop().getTenLop());
+        }
+        System.out.println("|---------------------------------------------------|");
+    }
+    public static void xoasinhvien(List<SinhVien> dssv, Scanner sc) {
+        System.out.print("\nNhập tên sinh viên cần xóa: ");
+        String name = sc.nextLine().trim();
+
+        Iterator<SinhVien> iterator = dssv.iterator();
+        boolean found = false;
+        while (iterator.hasNext()) {
+            SinhVien sv = iterator.next();
+            if (sv.getHoten().trim().equalsIgnoreCase(name)) {
+                iterator.remove();
+                found = true;
+                System.out.println("Sinh viên '" + name + "' đã được xóa.");
+            }
+        }
+        if (!found) {
+            System.out.println("Không tìm thấy sinh viên '" + name + "'.");
+        } else {
+            System.out.println("\nDanh sách sinh viên sau khi xóa:");
+            hienthidanhsachsinhvien(dssv);
+        }
+    }
+ 
+     
 }

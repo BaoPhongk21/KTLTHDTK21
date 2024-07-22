@@ -18,6 +18,12 @@ public class SinhVien {
 	public void addHoaDon (HoaDon hd) throws CloneNotSupportedException {
 		this.dshd.add((HoaDon)hd.clone());
 	}
+	public void removeHoaDon(HoaDon hd) {
+	    this.dshd.remove(hd);
+	}
+	public List<HoaDon> getdshd() {
+	    return dshd;
+	}
 	public String getHoten() {
 		return hoten;
 	}

@@ -14,6 +14,9 @@ public class LapTop extends SanPham {
 	public void setRam(int ram) {
 		this.ram = ram;
 	}
+	public int getMaSP() {
+	    return this.maSP;
+	}
 	public String getCpu() {
 		return cpu;
 	}

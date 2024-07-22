@@ -1,7 +1,7 @@
 package ktlthdt.model;
 
 public class SanPham {
-	private int maSP;
+	protected int maSP;
 	private String tenSP;
 	private int soluong;
 	private double giaca;
@@ -41,7 +41,7 @@ public class SanPham {
 		return "SanPham [maSP=" + maSP + ", tenSP=" + tenSP + ", soluong=" + soluong + ", giaca=" + giaca + "]";
 	}
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	public Object clone() throws CloneNotSupportedException {
 		// TODO Auto-generated method stub
 		return super.clone();
 	}

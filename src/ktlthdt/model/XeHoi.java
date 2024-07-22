@@ -17,6 +17,9 @@ public class XeHoi extends SanPham {
 	public DongCo getDongco() {
 		return dongco;
 	}
+	public int getMaSP() {
+	    return this.maSP; 
+	}
 	public void setDongco(DongCo dongco) {
 		this.dongco = dongco;
 	}
