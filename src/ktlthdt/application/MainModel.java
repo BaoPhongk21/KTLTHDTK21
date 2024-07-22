@@ -42,11 +42,18 @@ public class MainModel {
 	        lt.add(new LapTop(7, "Acer", 100, 26490, 4, "8GB DDR4"));
 
 	        List<SinhVien> dssv = new ArrayList<>();
-	        dssv.add(new SinhVien("Nguyễn Văn Nam", "0123456789", new LopHoc("CNTT")));
-	        dssv.add(new SinhVien("Trần Thị Mai", "0987654321", new LopHoc("KTPM")));
+	        dssv.add(new SinhVien("Lê Viết Bảo Phong", "9876543210", new LopHoc("CNTT")));
+	        dssv.add(new SinhVien("Hoàng Thị Doa", "0123456789", new LopHoc("CNTT")));
 	        dssv.add(new SinhVien("Lê Minh Hiếu", "0123654789", new LopHoc("QTKD")));
 	        dssv.add(new SinhVien("Phạm Thu Hà", "0987456321", new LopHoc("KHTN")));
 	        dssv.add(new SinhVien("Đặng Quốc Bình", "0123458769", new LopHoc("KTMT")));
+	        List<SanPham> sanPhams1 = new ArrayList<>();
+	        sanPhams1.add(new XeHoi(1, "Toyota", 100, 1250000, new DongCo("Dong co xang", 147)));
+	        
+	        List<SanPham> sanPhams2 = new ArrayList<>();
+	        sanPhams2.add(new LapTop(1, "Dell", 123, 15000, 4, "16GB DDR4"));
+	        
+	   
 
 	        Scanner sc = new Scanner(System.in);
 	        int choice;
@@ -88,7 +95,22 @@ public class MainModel {
 	                case 11:
 	                    xoasinhvien(dssv, sc);
 	                    break;
-	              
+	                case 12:
+	                    System.out.print("\nNhập tên sinh viên để tạo hóa đơn: ");
+	                    String tenSinhVien = sc.nextLine().trim();
+	                    SinhVien sv = dssv.stream()
+	                            .filter(s -> s.getHoten().equalsIgnoreCase(tenSinhVien))
+	                            .findFirst()
+	                            .orElse(null);
+	                    if (sv != null) {
+	                        List<SanPham> sanPhams = new ArrayList<>();
+	                        sanPhams.add(new XeHoi(1, "Toyota", 100, 1250000, new DongCo("Dong co xang", 147)));
+	                        sanPhams.add(new LapTop(1, "Dell", 123, 15000, 4, "16GB DDR4"));
+	                        taoHoaDon(sv, sanPhams);
+	                    } else {
+	                        System.out.println("Sinh viên không tồn tại.");
+	                    }
+	                    break;
 	                case 0:
 	                    System.out.println("Bạn Đã Thoát chương trình.");
 	                    System.out.println("Chúc Bạn Có 1 Ngày Tốt Đẹp.");
@@ -119,11 +141,41 @@ public class MainModel {
         System.out.println("* | 9. Kết nối máy chủ CSDL                 | *");
         System.out.println("* | 10. Hiển thị danh sách sinh viên        | *");
         System.out.println("* | 11. Xóa sinh viên                       | *");
+        System.out.println("* | 12. Tạo hóa đơn                         | *"); 
         System.out.println("* | 0. Thoát                                | *");
         System.out.println("********************************************");
-        System.out.print("Vui lòng chọn (0-11): ");
+        System.out.print("Vui lòng chọn (0-12): ");
     }
     
+    public static void taoHoaDon(SinhVien sinhVien, List<SanPham> sanPhams) {
+        // Tạo sao chép danh sách sản phẩm nếu cần
+        List<SanPham> saoChepSanPhams = new ArrayList<>();
+        for (SanPham sp : sanPhams) {
+            try {
+                saoChepSanPhams.add((SanPham) sp.clone());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int soHD = (int) (System.currentTimeMillis() % Integer.MAX_VALUE);
+        HoaDon hoaDon = new HoaDon(soHD, saoChepSanPhams);
+
+        // Hiển thị hóa đơn
+        System.out.println("\nHóa đơn của sinh viên " + sinhVien.getHoten() + ":");
+        System.out.println("Đả Mua Các Sản Phẩm");
+        System.out.println("Số hóa đơn: " + hoaDon.getSoHD());
+        System.out.println("|----------------------------------------------------------|");
+        System.out.printf("| %-3s | %-15s | %-8s | %-10s |\n", "ID", "Tên", "Số Lượng", "Giá Cả");
+        System.out.println("|----------------------------------------------------------|");   
+
+
+        for (SanPham sp : hoaDon.getDssp()) {
+            System.out.printf("| %-3d | %-15s | %-8d | %-10.2f |\n", sp.getMaSP(), sp.getTenSP(), sp.getSoluong(), sp.getGiaca());
+        }
+
+        System.out.println("|----------------------------------------------------------|");
+    }
 
     public static void hienthidanhsachbanhxe(List<XeHoi> cars) {
         System.out.println("\nDanh sách bánh xe của các xe hơi:");
@@ -316,6 +368,6 @@ public class MainModel {
             hienthidanhsachsinhvien(dssv);
         }
     }
- 
-     
+   
+
 }

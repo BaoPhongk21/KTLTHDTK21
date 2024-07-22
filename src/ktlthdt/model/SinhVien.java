@@ -3,7 +3,7 @@ package ktlthdt.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SinhVien {
+public class SinhVien  {
 	private String hoten;
 	private String sdt;
 	private LopHoc lop;
@@ -15,8 +15,11 @@ public class SinhVien {
 		this.lop = lop;
 		this.dshd = new ArrayList<HoaDon>();
 	}
-	public void addHoaDon (HoaDon hd) throws CloneNotSupportedException {
-		this.dshd.add((HoaDon)hd.clone());
+	public class HoaDon implements Cloneable {
+	    @Override
+	    protected Object clone() throws CloneNotSupportedException {
+	        return super.clone();
+	    }
 	}
 	public void removeHoaDon(HoaDon hd) {
 	    this.dshd.remove(hd);
